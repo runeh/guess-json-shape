@@ -158,9 +158,11 @@ type Root = {
 
 ## API
 
-A single function is exposed: `guess`. It takes
+A single function is exposed: `guess(json)`. It takes a single argument, that
+should be some parsed JSON. It returns an array of `JsonType` objects that
+represent the structure of the parsed JSON. See the
 
-## Known issues
+## Cabeats and known issues
 
 - Discriminated unions are not detected. So all the candidate object shapes will
   be merged into a single object that is mostly wrong. For example:
@@ -192,21 +194,3 @@ A single function is exposed: `guess`. It takes
   `unknown` there instead.
 - Does not work on cirular structures. JSON can not be circular, but it's still
   possible to pass in something circular.
-
-## todo list
-
-- Threshold thing to make a union if there are objects that look very different
-  in inferencer. As in, detect discriminated unions.
-- Rename "name" to "id" when for the shapes?
-- Can we drop some of the ".every(isSomeType)" things?
-- More tests for name detection think. Like in the "guess ok name for object
-  array child" test
-- Organize tests in describe blocks
-- Tests for names
-- Should output array only have a single type, so force you to use union?
-- test for wrong union behaviour in toField
-- Option to override name of root
-- Option to override name of "guessed" field
-- Option to have callback thingy for name transformation
-- Be more specific about types in JsonType. Should only allow array or object
-- Rename `JsonType`?
