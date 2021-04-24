@@ -22,7 +22,7 @@ import {
 
 export interface PrimitiveType {
   kind: 'primitive';
-  type: 'boolean' | 'null' | 'number' | 'string';
+  type: 'boolean' | 'null' | 'number' | 'string' | 'never';
 }
 
 export interface NamedType {
@@ -81,7 +81,7 @@ function coalesceTypes(
 ): PrimitiveType | NamedType | ArrayType | UnionType {
   switch (types.length) {
     case 0:
-      return { kind: 'primitive', type: 'null' };
+      return { kind: 'primitive', type: 'never' };
     case 1:
       return types[0];
     default:

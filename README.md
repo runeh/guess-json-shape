@@ -189,8 +189,8 @@ represent the structure of the parsed JSON. See the
   ```
 
 - No attempt is made to guess if particular strings are string union types.
-- Empty arrays are guessed to be arrays of `null`. That is, `guessJsonShape([])`
-  is inferred to be `Array<null>`. We should perhaps introduce `never` or
-  `unknown` there instead.
+- Empty arrays are guessed to be arrays of `never`. That is,
+  `guessJsonShape([])` is inferred to be `Array<never>`. The consumer needs to
+  decide how to represent that in their output.
 - Does not work on cirular structures. JSON can not be circular, but it's still
   possible to pass in something circular.

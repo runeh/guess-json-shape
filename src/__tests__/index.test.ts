@@ -363,7 +363,7 @@ describe('snapshot', () => {
             "kind": "array",
             "type": Object {
               "kind": "primitive",
-              "type": "null",
+              "type": "never",
             },
           },
         },
@@ -387,7 +387,7 @@ describe('snapshot', () => {
                   "kind": "array",
                   "type": Object {
                     "kind": "primitive",
-                    "type": "null",
+                    "type": "never",
                   },
                 },
               },
@@ -479,7 +479,7 @@ describe('snapshot', () => {
             "kind": "array",
             "type": Object {
               "kind": "primitive",
-              "type": "null",
+              "type": "never",
             },
           },
         },
@@ -591,7 +591,7 @@ describe('snapshot', () => {
                   "kind": "array",
                   "type": Object {
                     "kind": "primitive",
-                    "type": "null",
+                    "type": "never",
                   },
                 },
               },

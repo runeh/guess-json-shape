@@ -3,15 +3,13 @@
 - Investigate threshold thing to make a union if there are objects that look
   very different in inferencer. As in, detect discriminated unions.
 - Can we drop some of the ".every(isSomeType)" things? Figure out why some of
-  the recurse out of stack now.
+  them recurse out of stack now.
 - Organize tests in describe blocks.
 - Option to override name of root.
 - Option to override name of "guessed" field.
 - Option to have callback thingy for name transformation.
 - Rename `JsonType` to something less vague?
 - Add some examples?
-- Figure out if a `never` type is needed for places where we infer an empty
-  array.
 - Set up husky
 - Look into @commitlint/config-conventional
 
