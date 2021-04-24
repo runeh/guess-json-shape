@@ -5,8 +5,6 @@
 - Can we drop some of the ".every(isSomeType)" things? Figure out why some of
   the recurse out of stack now.
 - Organize tests in describe blocks.
-- Should output array only have a single type, so force you to use union?
-- Test for wrong union behaviour in toField.
 - Option to override name of root.
 - Option to override name of "guessed" field.
 - Option to have callback thingy for name transformation.

@@ -10,11 +10,11 @@ import {
 import invariant from 'ts-invariant';
 import {
   ArrayShape,
+  LeafShape,
   ObjectMap,
   ObjectRef,
   ObjectShape,
   ObjectShapeField,
-  Primitive,
   getObjectHash,
   isObjectRef,
   unwrap,
@@ -76,7 +76,20 @@ function titleCase(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
-function toType(t: Primitive | ArrayShape | ObjectRef): AnyType {
+function coalesceTypes(
+  types: (ArrayType | NamedType | PrimitiveType)[],
+): PrimitiveType | NamedType | ArrayType | UnionType {
+  switch (types.length) {
+    case 0:
+      return { kind: 'primitive', type: 'null' };
+    case 1:
+      return types[0];
+    default:
+      return { kind: 'union', types };
+  }
+}
+
+function toType(t: LeafShape): NamedType | PrimitiveType | ArrayType {
   switch (t.kind) {
     case 'objectRef':
       return { kind: 'named', name: t.targetId };
@@ -85,17 +98,16 @@ function toType(t: Primitive | ArrayShape | ObjectRef): AnyType {
     case 'array':
       return {
         kind: 'array',
-        type: { kind: 'union', types: t.types.map(toType) },
+        type: coalesceTypes(t.types.map(toType)),
       };
   }
 }
 
 function toField(input: ObjectShapeField): ObjectField {
-  const types = input.type.map(toType);
   return {
     name: input.name,
     nullable: input.nullable,
-    type: types.length === 1 ? types[0] : { kind: 'union', types },
+    type: coalesceTypes(input.type.map(toType)),
   };
 }
 
@@ -128,15 +140,7 @@ function getJsonTypes(
     const nestedTypes = node.types
       .filter(isObjectRef)
       .flatMap((e) => getJsonTypes(objectMap, e));
-
-    const types = node.types.map(toType);
-
-    const arrayType: AnyType =
-      types.length === 0
-        ? { kind: 'primitive', type: 'null' }
-        : types.length === 1
-        ? types[0]
-        : { kind: 'union', types };
+    const arrayType = coalesceTypes(node.types.map(toType));
 
     const thisType: JsonType = {
       name,

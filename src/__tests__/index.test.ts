@@ -371,7 +371,7 @@ describe('snapshot', () => {
     `);
   });
 
-  it.skip('does the right thing when input is empty array in object', () => {
+  it('does the right thing when input is empty array in object', () => {
     // the snapshot here is wrong
     expect(guess({ things: [] })).toMatchInlineSnapshot(`
       Array [
@@ -386,8 +386,212 @@ describe('snapshot', () => {
                 "type": Object {
                   "kind": "array",
                   "type": Object {
+                    "kind": "primitive",
+                    "type": "null",
+                  },
+                },
+              },
+            ],
+            "kind": "object",
+          },
+        },
+      ]
+    `);
+  });
+
+  it('coalesces types to single type', () => {
+    expect(guess([1, 2, 3])).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "isRoot": true,
+          "name": "Root",
+          "type": Object {
+            "kind": "array",
+            "type": Object {
+              "kind": "primitive",
+              "type": "number",
+            },
+          },
+        },
+      ]
+    `);
+  });
+
+  it('coalesces types when multiple types in array', () => {
+    expect(guess([1, 'test', true, { name: 'test' }])).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "isRoot": false,
+          "name": "Guessed",
+          "type": Object {
+            "fields": Array [
+              Object {
+                "name": "name",
+                "nullable": false,
+                "type": Object {
+                  "kind": "primitive",
+                  "type": "string",
+                },
+              },
+            ],
+            "kind": "object",
+          },
+        },
+        Object {
+          "isRoot": true,
+          "name": "Root",
+          "type": Object {
+            "kind": "array",
+            "type": Object {
+              "kind": "union",
+              "types": Array [
+                Object {
+                  "kind": "named",
+                  "name": "Guessed",
+                },
+                Object {
+                  "kind": "primitive",
+                  "type": "number",
+                },
+                Object {
+                  "kind": "primitive",
+                  "type": "string",
+                },
+                Object {
+                  "kind": "primitive",
+                  "type": "boolean",
+                },
+              ],
+            },
+          },
+        },
+      ]
+    `);
+  });
+
+  it('coalesces types to null for empty arrays', () => {
+    expect(guess([])).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "isRoot": true,
+          "name": "Root",
+          "type": Object {
+            "kind": "array",
+            "type": Object {
+              "kind": "primitive",
+              "type": "null",
+            },
+          },
+        },
+      ]
+    `);
+  });
+
+  it('coalesces types to single type in object', () => {
+    expect(guess({ things: [1, 2, 3] })).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "isRoot": true,
+          "name": "Root",
+          "type": Object {
+            "fields": Array [
+              Object {
+                "name": "things",
+                "nullable": undefined,
+                "type": Object {
+                  "kind": "array",
+                  "type": Object {
+                    "kind": "primitive",
+                    "type": "number",
+                  },
+                },
+              },
+            ],
+            "kind": "object",
+          },
+        },
+      ]
+    `);
+  });
+
+  it('coalesces types when multiple types in array in object', () => {
+    expect(guess({ things: [1, 'test', true, { name: 'test' }] }))
+      .toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "isRoot": false,
+          "name": "Things",
+          "type": Object {
+            "fields": Array [
+              Object {
+                "name": "name",
+                "nullable": false,
+                "type": Object {
+                  "kind": "primitive",
+                  "type": "string",
+                },
+              },
+            ],
+            "kind": "object",
+          },
+        },
+        Object {
+          "isRoot": true,
+          "name": "Root",
+          "type": Object {
+            "fields": Array [
+              Object {
+                "name": "things",
+                "nullable": undefined,
+                "type": Object {
+                  "kind": "array",
+                  "type": Object {
                     "kind": "union",
-                    "types": Array [],
+                    "types": Array [
+                      Object {
+                        "kind": "named",
+                        "name": "Things",
+                      },
+                      Object {
+                        "kind": "primitive",
+                        "type": "number",
+                      },
+                      Object {
+                        "kind": "primitive",
+                        "type": "string",
+                      },
+                      Object {
+                        "kind": "primitive",
+                        "type": "boolean",
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            "kind": "object",
+          },
+        },
+      ]
+    `);
+  });
+
+  it('coalesces types to null for empty arrays in object', () => {
+    expect(guess({ things: [] })).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "isRoot": true,
+          "name": "Root",
+          "type": Object {
+            "fields": Array [
+              Object {
+                "name": "things",
+                "nullable": undefined,
+                "type": Object {
+                  "kind": "array",
+                  "type": Object {
+                    "kind": "primitive",
+                    "type": "null",
                   },
                 },
               },
