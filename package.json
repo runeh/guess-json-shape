@@ -1,6 +1,6 @@
 {
   "name": "guess-json-shape",
-  "version": "0.0.1-3",
+  "version": "1.0.0-beta.1",
   "main": "dist/index.js",
   "author": "Rune Finstad Halvorsen",
   "repository": "github:runeh/guess-json-shape",
