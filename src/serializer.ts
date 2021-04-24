@@ -60,7 +60,7 @@ export type AnyType =
 
 export interface JsonType {
   name: string;
-  type: AnyType;
+  type: ArrayType | ObjectType;
   isRoot: boolean;
 }
 
@@ -266,6 +266,16 @@ function updateNamedTypes(
   }
 }
 
+function updateJsonTypeNames(
+  subject: ArrayType | ObjectType,
+  id: string,
+  replacement: AnyType,
+): ArrayType | ObjectType {
+  const newType = updateNamedTypes(subject, id, replacement);
+  invariant(newType.kind === 'array' || newType.kind === 'object');
+  return newType;
+}
+
 function removeArrayJsonTypes(
   jsonTypes: JsonType[],
   rootId: string,
@@ -284,7 +294,7 @@ function removeArrayJsonTypes(
   for (let n = 0; n < 5; n++) {
     for (const jsonType of jsonTypes) {
       for (const [id, type] of arrayPairs) {
-        jsonType.type = updateNamedTypes(jsonType.type, id, type);
+        jsonType.type = updateJsonTypeNames(jsonType.type, id, type);
       }
     }
   }

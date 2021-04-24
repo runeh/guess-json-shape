@@ -10,8 +10,6 @@
 - Option to override name of root.
 - Option to override name of "guessed" field.
 - Option to have callback thingy for name transformation.
-- Be more specific about types in JsonType. Should only allow array or object at
-  root level.
 - Rename `JsonType` to something less vague?
 - Add some examples?
 - Figure out if a `never` type is needed for places where we infer an empty
