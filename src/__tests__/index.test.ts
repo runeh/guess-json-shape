@@ -382,7 +382,7 @@ describe('snapshot', () => {
             "fields": Array [
               Object {
                 "name": "things",
-                "nullable": undefined,
+                "nullable": false,
                 "type": Object {
                   "kind": "array",
                   "type": Object {
@@ -497,7 +497,7 @@ describe('snapshot', () => {
             "fields": Array [
               Object {
                 "name": "things",
-                "nullable": undefined,
+                "nullable": false,
                 "type": Object {
                   "kind": "array",
                   "type": Object {
@@ -542,7 +542,7 @@ describe('snapshot', () => {
             "fields": Array [
               Object {
                 "name": "things",
-                "nullable": undefined,
+                "nullable": false,
                 "type": Object {
                   "kind": "array",
                   "type": Object {
@@ -586,7 +586,7 @@ describe('snapshot', () => {
             "fields": Array [
               Object {
                 "name": "things",
-                "nullable": undefined,
+                "nullable": false,
                 "type": Object {
                   "kind": "array",
                   "type": Object {
@@ -600,6 +600,40 @@ describe('snapshot', () => {
           },
         },
       ]
+    `);
+  });
+
+  it('combines equal types', () => {
+    expect(
+      stringify(
+        guess({
+          image: {
+            href: 'https://example.com/image',
+          },
+          episodes: [
+            {
+              image: {
+                href: 'https://example.com/image',
+              },
+            },
+          ],
+        }),
+      ),
+    ).toMatchInlineSnapshot(`
+      "-
+      type Image = {
+        href: string;
+      };
+
+      type Episodes = {
+        image: Image;
+      };
+
+      type Root = {
+        image: Image;
+        episodes: Array<Episodes>;
+      };
+      "
     `);
   });
 });

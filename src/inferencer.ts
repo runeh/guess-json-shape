@@ -25,6 +25,7 @@ function inferObjectShape(
     kind: 'object',
     fields: node.children.map((field) => ({
       name: field.key,
+      nullable: false,
       type: [inferNodeShape(objectMap, field.value)],
     })),
   };
