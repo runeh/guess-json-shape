@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://www.github.com/runeh/guess-json-shape/compare/v1.0.0...v1.0.1) (2021-04-28)
+
+
+### Bug Fixes
+
+* merge equal types across entire structure ([2761189](https://www.github.com/runeh/guess-json-shape/commit/2761189eefb9d5a98e115c44261029d6305c8114))
+
 ## 1.0.0 (2021-04-24)
 
 
